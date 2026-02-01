@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Will You Be My Valentine? 💖</title>
+  <meta name="description" content="A romantic Valentine’s Day proposal website." />
+  <style>
+    :root {
+      --bg1: #ffdde1;
+      --bg2: #ee9ca7;
+      --card: rgba(255, 255, 255, 0.92);
+      --accent: #e63946;
+      --text: #2b2b2b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      color: var(--text);
+    }
+    .card {
+      background: var(--card);
+      width: min(92%, 420px);
+      padding: 2rem 1.8rem 2.2rem;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 1.2s ease-out;
+      z-index: 2;
+    }
+    h1 { margin-top: 0; font-size: 1.8rem; }
+    .heart { font-size: 2.5rem; animation: beat 1.2s infinite; display: inline-block; }
+    p { line-height: 1.6; margin: 1rem 0 1.6rem; }
+    .names { color: var(--accent); font-weight: 600; }
+    .buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.2rem; }
+    button {
+      border: none; padding: 0.7rem 1.4rem; border-radius: 999px;
+      font-size: 1rem; cursor: pointer;
+    }
+    .yes { background: var(--accent); color: #fff; }
+    .no { background: #f1f1f1; color: #555; }
+    .message { display: none; margin-top: 1.4rem; font-weight: 600; color: var(--accent); }
+    .floating-heart {
+      position: absolute; bottom: -40px; font-size: 1.2rem;
+      animation: floatUp linear forwards; opacity: 0.8;
+    }
+    @keyframes floatUp { to { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+    @keyframes beat { 0%,100%{transform:scale(1);}50%{transform:scale(1.25);} }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+    .letter-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      display: none; align-items: center; justify-content: center;
+      z-index: 10; transition: background 2s ease;
+    }
+    .letter {
+      background: #fffaf5; width: min(90%, 520px);
+      padding: 2.2rem; border-radius: 18px;
+      font-family: 'Segoe Script', cursive;
+      animation: slideUp 1s ease forwards;
+    }
+    .letter p {
+      white-space: nowrap; overflow: hidden; width: 0;
+      border-right: 2px solid rgba(0,0,0,0.4);
+      animation: write 2.5s steps(60, end) forwards;
+    }
+    .letter p:nth-child(2){animation-delay:.5s}
+    .letter p:nth-child(3){animation-delay:1s}
+    .letter p:nth-child(4){animation-delay:1.6s}
+    .letter p:nth-child(5){animation-delay:2.2s}
+    @keyframes write { to { width: 100%; border-right: none; } }
+    @keyframes slideUp { from{opacity:0;transform:translateY(40px);} to{opacity:1;} }
+    .love-langs, .screenshot { opacity: 0; animation: fadeIn 1.5s forwards; margin-top: 1rem; }
+    .love-langs { animation-delay: 3s; }
+    .screenshot { animation-delay: 4.5s; color: var(--accent); font-weight: 600; }
+    .close-btn {
+      margin-top: 1.5rem; background: var(--accent); color: white;
+      border-radius: 999px; padding: 0.5rem 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- IMPORTANT:
+Place your audio files in THE SAME FOLDER as this HTML file:
+1) music.mp3  → romantic background music (instrumental recommended)
+2) kiss.mp3   → short kiss sound effect
+
+Recommended sources:
+- https://pixabay.com/music/
+- https://pixabay.com/sound-effects/
+Make sure files are MP3 format.
+-->
+
+<div id="soundGate" style="position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffdde1,#ee9ca7);">
+  <button onclick="unlockSound()" style="background:#e63946;color:white;border:none;border-radius:999px;padding:1rem 1.8rem;font-size:1.1rem;">🎵 Tap to begin sweetheart I made this just for you</button>
+</div>
+
+<audio id="bgMusic" preload="auto" playsinline></audio>
+<audio id="kissSound" preload="auto" playsinline></audio>
+
+<div class="card">
+  <h1>Hey <span class="names">My baby Aishani</span> <span class="heart">❤️</span></h1>
+  <p>Even though miles separate us, my heart always finds its way back to you. I love you forever and ever.</p>
+  <strong>So uh...um haha...uh alr um uh alr uh... will you um uh be my val- valen- valentine...? </strong>
+  <strong> Will you be my Valentine...?</strong>
+  <div class="buttons">
+    <button class="yes" onclick="sayYes()">Yes 💕</button>
+    <button class="no" onclick="moveNo(this)">No :(</button>
+  </div>
+  <div class="message" id="message">YYAAAYAYAYAYAYAY!! 💖</div>
+</div>
+
+<div class="letter-overlay" id="letterOverlay">
+  <div class="letter">
+    <p>My dearest Aishani,</p>
+    <p>Every moment I spend time with you is heaven fr.</p>
+    <p>Distance may keep us apart, but my heart is forever yours.</p>
+    <p>Thank you so so much for everything my darling.</p>
+    <p>Forever Aishani's ❤️</p>
+    <div class="love-langs">I love you • Te amo • Je t’aime • Ich liebe dich • 愛してる • 사랑해</div>
+    <div class="screenshot"> Screenshot this I put in so much effort yaar ❤️</div>
+    <button class="close-btn" onclick="closeLetter()">Seal it with a kissi 💋</button>
+  </div>
+</div>
+
+<div id="watermark" style="position:fixed;bottom:14px;right:18px;opacity:0;transition:opacity 2s;color:#e63946;">I love you ❤️</div>
+
+<script>
+  let soundUnlocked = false;
+
+  function appleHaptic(pattern) {
+    if (!navigator.vibrate) return;
+    navigator.vibrate(pattern || [30, 40, 30]);
+  }
+
+  function unlockSound() {
+    const music = document.getElementById('bgMusic');
+    const kiss = document.getElementById('kissSound');
+
+    // assign sources ONLY after user interaction (fixes iOS / Android tab issues)
+    music.src = 'music.mp3';
+    kiss.src = 'kiss.mp3';
+
+    music.volume = 0;
+    kiss.volume = 0;
+
+    Promise.all([
+      music.play().catch(()=>{}),
+      kiss.play().catch(()=>{})
+    ]).finally(() => {
+      music.pause(); kiss.pause();
+      music.currentTime = 0; kiss.currentTime = 0;
+      soundUnlocked = true;
+      document.getElementById('soundGate').style.display = 'none';
+      appleHaptic([40,30,40]);
+    });
+  }
+
+  function sayYes() {
+    document.getElementById('message').style.display = 'block';
+    document.getElementById('letterOverlay').style.display = 'flex';
+
+    const music = document.getElementById('bgMusic');
+    const kiss = document.getElementById('kissSound');
+
+    if (soundUnlocked) {
+      music.volume = 0.6; music.play().catch(()=>{});
+      kiss.volume = 0.8; kiss.play().catch(()=>{});
+    }
+
+    appleHaptic([100,50,100]);
+    for (let i = 0; i < 40; i++) createHeart();
+  }
+
+  function moveNo(btn) {
+    btn.style.transform = `translate(${Math.random()*200-100}px,${Math.random()*120-60}px)`;
+  }
+
+  function createHeart() {
+    const h = document.createElement('div');
+    h.className = 'floating-heart'; h.textContent = '💖';
+    h.style.left = Math.random()*100 + 'vw';
+    h.style.animationDuration = 2 + Math.random()*3 + 's';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),5000);
+  }
+
+  function closeLetter() {
+    const overlay = document.getElementById('letterOverlay');
+    const music = document.getElementById('bgMusic');
+    const watermark = document.getElementById('watermark');
+
+    overlay.style.background = 'rgba(0,0,0,0)';
+
+    const fade = setInterval(() => {
+      if (music.volume > 0.05) music.volume -= 0.05;
+      else { music.pause(); clearInterval(fade); }
+    }, 200);
+
+    appleHaptic([60,40,60,40,120]);
+
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      watermark.style.opacity = '1';
+    }, 1800);
+  }
+</script>
+</body>
+</html>
