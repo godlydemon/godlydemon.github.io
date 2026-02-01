@@ -36,7 +36,11 @@
       z-index: 2;
     }
     h1 { margin-top: 0; font-size: 1.8rem; }
-    .heart { font-size: 2.5rem; animation: beat 1.2s infinite; display: inline-block; }
+    .heart {
+      font-size: 2.5rem;
+      animation: beat var(--beat) infinite;
+      display: inline-block;
+    }
     p { line-height: 1.6; margin: 1rem 0 1.6rem; }
     .names { color: var(--accent); font-weight: 600; }
     .buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1.2rem; }
@@ -52,6 +56,9 @@
       animation: floatUp linear forwards; opacity: 0.8;
     }
     @keyframes floatUp { to { transform: translateY(-110vh) rotate(360deg); opacity: 0; } }
+    :root {
+      --beat: 0.85s; /* default heartbeat */
+    }
     @keyframes beat { 0%,100%{transform:scale(1);}50%{transform:scale(1.25);} }
     @keyframes fadeIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
     .letter-overlay {
@@ -90,7 +97,27 @@
       margin-top: 1.5rem; background: var(--accent); color: white;
       border-radius: 999px; padding: 0.5rem 1.2rem;
     }
-  </style>
+      .letter-photo {
+      width: 70%;
+      max-height: 180px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 1rem;
+      border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+    .line {
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+    .final-heart {
+      text-align: center;
+      font-size: 2.2rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      animation-delay: var(--delay);
+    }
+</style>
 </head>
 <body>
 
@@ -127,7 +154,7 @@ Make sure files are MP3 format.
 
 <div class="letter-overlay" id="letterOverlay">
   <div class="letter">
-    <img src="her2.jpg" alt="Her photo" style="width:100%;border-radius:14px;margin-bottom:1rem;box-shadow:0 6px 16px rgba(0,0,0,0.2);" />
+    <img src="her2.jpg" alt="Her photo" class="letter-photo" />
     <p>My dearest Aishani,</p>
     <p>Every moment I spend time with you is heaven fr.</p>
     <p>Distance may keep us apart, but once its over,</p>
@@ -146,13 +173,14 @@ Make sure files are MP3 format.
 <div class="letter-overlay" id="letterOverlay2" style="display:none;">
   <div class="letter long">
     <p><strong>PS...</strong></p>
-    <p>
-      Hi my sweet little darling I love you so so so much. Its impossible to express the amount of love i feel for you without being physical with you, all i want is to hug you, give you cuddles,
-      give you unlimited kissies and well yk the rest too... I know valentines isnt gonna be that grand for us really since well boards and LDR, But i just want you to know i love you alot and i hope you know that,
-      my sweet little cute little RAGEBAITER. KYS LMFAO MWAH. 
-    </p>
-    <div class="screenshot">Can i hit now 🥹😂❤️</div>
-    <button class="close-btn" onclick="closeLetter()">Seal it with a kissi 💋</button>
+    <p class="line" style="animation-delay:.4s">Hi my sweet little darling I love you so so so much.</p>
+    <p class="line" style="animation-delay:1.4s">Its impossible to express the amount of love I feel for you without being physical with you.</p>
+    <p class="line" style="animation-delay:2.4s">All I want is to hug you, give you cuddles, and unlimited kissies.</p>
+    <p class="line" style="animation-delay:3.4s">I know Valentine’s isn’t grand for us this year, but my love for you is endless.</p>
+    <p class="line" style="animation-delay:4.4s">My sweet little chaos goblin — I choose you always.</p>
+    <div class="final-heart" style="--delay:5.8s">❤️</div>
+    <div class="screenshot">Can I hit now 🥹😂❤️</div>
+    <button class="close-btn" onclick="closeLetter()">Seal it with a kiss 💋</button>
   </div>
 </div>
 
@@ -191,6 +219,12 @@ Make sure files are MP3 format.
     });
   }
 
+  function syncHeartbeat() {
+    const BPM = 72; // romantic slow heartbeat
+    const beat = (60 / BPM).toFixed(2) + 's';
+    document.documentElement.style.setProperty('--beat', beat);
+  }
+
   function sayYes() {
     document.getElementById('message').style.display = 'block';
     document.getElementById('letterOverlay').style.display = 'flex';
@@ -199,6 +233,7 @@ Make sure files are MP3 format.
     const kiss = document.getElementById('kissSound');
 
     if (soundUnlocked) {
+      syncHeartbeat();
       music.volume = 0.6; music.play().catch(()=>{});
       kiss.volume = 0.8; kiss.play().catch(()=>{});
     }
@@ -237,7 +272,7 @@ Make sure files are MP3 format.
     setTimeout(() => {
       overlay.style.display = 'none';
       watermark.style.opacity = '1';
-      const rb = document.getElementById('replayBtn'); rb.style.opacity='1'; rb.style.animation='beat 1.2s infinite';
+      const rb = document.getElementById('replayBtn'); rb.style.opacity='1'; rb.style.animation = `beat var(--beat) infinite`;
     }, 1800);
   }
   function replayAll() {
@@ -266,6 +301,60 @@ Make sure files are MP3 format.
   }
 
   function nextPage() {
+    const music = document.getElementById('bgMusic');
+    document.getElementById('letterOverlay').style.display = 'none';
+    document.getElementById('letterOverlay2').style.display = 'flex';
+    if (music && soundUnlocked) {
+      music.volume = 0.25;
+    }
+    appleHaptic([40,40,80]);
+  }
+
+  function closeLetter() {
+    const overlay1 = document.getElementById('letterOverlay');
+    const overlay2 = document.getElementById('letterOverlay2');
+    const music = document.getElementById('bgMusic');
+    const watermark = document.getElementById('watermark');
+
+    overlay1.style.display = 'none';
+    overlay2.style.background = 'rgba(0,0,0,0)';
+
+    const fade = setInterval(() => {
+      if (music.volume > 0.05) music.volume -= 0.05;
+      else { music.pause(); clearInterval(fade); }
+    }, 200);
+
+    appleHaptic([60,40,60,40,120]);
+
+    setTimeout(() => {
+      overlay2.style.display = 'none';
+      watermark.style.opacity = '1';
+      const rb = document.getElementById('replayBtn'); rb.style.opacity='1'; rb.style.animation='beat 1.2s infinite';
+    }, 1800);
+  }
+
+  function replayAll() {
+    const overlay1 = document.getElementById('letterOverlay');
+    const overlay2 = document.getElementById('letterOverlay2');
+    const music = document.getElementById('bgMusic');
+    const msg = document.getElementById('message');
+    document.getElementById('replayBtn').style.opacity = '0';
+    document.getElementById('watermark').style.opacity = '0';
+
+    overlay2.style.display = 'none';
+    msg.style.display = 'none';
+    overlay1.style.background = 'rgba(0,0,0,0.6)';
+    overlay1.style.display = 'flex';
+
+    if (soundUnlocked) {
+      music.currentTime = 0;
+      music.volume = 0.6;
+      music.play().catch(()=>{});
+    }
+
+    appleHaptic([30,40,30,40,60]);
+    for (let i = 0; i < 30; i++) createHeart();
+  }() {
     document.getElementById('letterOverlay').style.display = 'none';
     document.getElementById('letterOverlay2').style.display = 'flex';
     appleHaptic([40,40,80]);
