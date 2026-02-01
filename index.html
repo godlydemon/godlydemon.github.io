@@ -106,6 +106,7 @@ Make sure files are MP3 format.
 <audio id="kissSound" preload="auto" playsinline></audio>
 
 <div class="card">
+  <img src="her.jpg" alt="Her photo" style="width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:1rem;box-shadow:0 8px 20px rgba(0,0,0,0.25);" />
   <h1>Hey <span class="names">My baby Aishani</span> <span class="heart">❤️</span></h1>
   <p>Even though miles separate us, my heart always finds its way back to you. I love you forever and ever.</p>
   <strong>So uh...um haha...uh alr um uh alr uh... will you um uh be my val- valen- valentine...? </strong>
@@ -121,7 +122,8 @@ Make sure files are MP3 format.
   <div class="letter">
     <p>My dearest Aishani,</p>
     <p>Every moment I spend time with you is heaven fr.</p>
-    <p>Distance may keep us apart, but my heart is forever yours.</p>
+    <p>Distance may keep us apart, but once its over,</p>
+    <p>We will be the best, cuddles, kissies and allat</p>
     <p>Thank you so so much for everything my darling.</p>
     <p>Forever Aishani's ❤️</p>
     <div class="love-langs">I love you • Te amo • Je t’aime • Ich liebe dich • 愛してる • 사랑해</div>
@@ -131,6 +133,8 @@ Make sure files are MP3 format.
 </div>
 
 <div id="watermark" style="position:fixed;bottom:14px;right:18px;opacity:0;transition:opacity 2s;color:#e63946;">I love you ❤️</div>
+
+<button id="replayBtn" onclick="replayAll()" style="position:fixed;bottom:14px;left:18px;opacity:0;transition:opacity 2s;background:#e63946;color:white;border:none;border-radius:999px;padding:0.6rem 1.1rem;font-size:0.9rem;">🔁 Replay</button>
 
 <script>
   let soundUnlocked = false;
@@ -209,7 +213,28 @@ Make sure files are MP3 format.
     setTimeout(() => {
       overlay.style.display = 'none';
       watermark.style.opacity = '1';
+      document.getElementById('replayBtn').style.opacity = '1';
     }, 1800);
+  }
+  function replayAll() {
+    const overlay = document.getElementById('letterOverlay');
+    const music = document.getElementById('bgMusic');
+    const msg = document.getElementById('message');
+    document.getElementById('replayBtn').style.opacity = '0';
+    document.getElementById('watermark').style.opacity = '0';
+
+    msg.style.display = 'none';
+    overlay.style.background = 'rgba(0,0,0,0.6)';
+    overlay.style.display = 'flex';
+
+    if (soundUnlocked) {
+      music.currentTime = 0;
+      music.volume = 0.6;
+      music.play().catch(()=>{});
+    }
+
+    appleHaptic([30,40,30,40,60]);
+    for (let i = 0; i < 30; i++) createHeart();
   }
 </script>
 </body>
