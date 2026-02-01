@@ -70,6 +70,13 @@
       border-right: 2px solid rgba(0,0,0,0.4);
       animation: write 2.5s steps(60, end) forwards;
     }
+    /* Page 2 paragraph style: allows full paragraph wrapping */
+    .letter.long p {
+      white-space: normal;
+      width: auto;
+      border-right: none;
+      animation: fadeIn 1.5s ease forwards;
+    }
     .letter p:nth-child(2){animation-delay:.5s}
     .letter p:nth-child(3){animation-delay:1s}
     .letter p:nth-child(4){animation-delay:1.6s}
@@ -106,7 +113,7 @@ Make sure files are MP3 format.
 <audio id="kissSound" preload="auto" playsinline></audio>
 
 <div class="card">
-  <img src="her.jpg" alt="Her photo" style="width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:1rem;box-shadow:0 8px 20px rgba(0,0,0,0.25);" />
+  <img src="her.jpg" alt="Her photo" onclick="photoBurst()" style="width:120px;height:120px;object-fit:cover;border-radius:50%;margin-bottom:1rem;box-shadow:0 8px 20px rgba(0,0,0,0.25);cursor:pointer;" />
   <h1>Hey <span class="names">My baby Aishani</span> <span class="heart">❤️</span></h1>
   <p>Even though miles separate us, my heart always finds its way back to you. I love you forever and ever.</p>
   <strong>So uh...um haha...uh alr um uh alr uh... will you um uh be my val- valen- valentine...? </strong>
@@ -120,14 +127,31 @@ Make sure files are MP3 format.
 
 <div class="letter-overlay" id="letterOverlay">
   <div class="letter">
+    <img src="her2.jpg" alt="Her photo" style="width:100%;border-radius:14px;margin-bottom:1rem;box-shadow:0 6px 16px rgba(0,0,0,0.2);" />
     <p>My dearest Aishani,</p>
     <p>Every moment I spend time with you is heaven fr.</p>
     <p>Distance may keep us apart, but once its over,</p>
-    <p>We will be the best, cuddles, kissies and allat</p>
+    <p>We will be the best. cuddles, kissies and allat</p>
     <p>Thank you so so much for everything my darling.</p>
     <p>Forever Aishani's ❤️</p>
     <div class="love-langs">I love you • Te amo • Je t’aime • Ich liebe dich • 愛してる • 사랑해</div>
     <div class="screenshot"> Screenshot this I put in so much effort yaar ❤️</div>
+    <button class="close-btn" onclick="nextPage()">Next 💌</button>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="letter-overlay" id="letterOverlay2" style="display:none;">
+  <div class="letter long">
+    <p><strong>PS...</strong></p>
+    <p>
+      Hi my sweet little darling I love you so so so much. Its impossible to express the amount of love i feel for you without being physical with you, all i want is to hug you, give you cuddles,
+      give you unlimited kissies and well yk the rest too... I know valentines isnt gonna be that grand for us really since well boards and LDR, But i just want you to know i love you alot and i hope you know that,
+      my sweet little cute little RAGEBAITER. KYS LMFAO MWAH. 
+    </p>
+    <div class="screenshot">Can i hit now 🥹😂❤️</div>
     <button class="close-btn" onclick="closeLetter()">Seal it with a kissi 💋</button>
   </div>
 </div>
@@ -213,7 +237,7 @@ Make sure files are MP3 format.
     setTimeout(() => {
       overlay.style.display = 'none';
       watermark.style.opacity = '1';
-      document.getElementById('replayBtn').style.opacity = '1';
+      const rb = document.getElementById('replayBtn'); rb.style.opacity='1'; rb.style.animation='beat 1.2s infinite';
     }, 1800);
   }
   function replayAll() {
@@ -235,6 +259,16 @@ Make sure files are MP3 format.
 
     appleHaptic([30,40,30,40,60]);
     for (let i = 0; i < 30; i++) createHeart();
+  }
+  function photoBurst() {
+    appleHaptic([20,30,20]);
+    for (let i = 0; i < 25; i++) createHeart();
+  }
+
+  function nextPage() {
+    document.getElementById('letterOverlay').style.display = 'none';
+    document.getElementById('letterOverlay2').style.display = 'flex';
+    appleHaptic([40,40,80]);
   }
 </script>
 </body>
